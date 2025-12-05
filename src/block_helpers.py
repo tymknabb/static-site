@@ -1,6 +1,6 @@
 from enum import Enum
 from htmlnode import ParentNode
-from textnode import TextNode, TextType
+from textnode import TextType, TextNode
 from inline_helpers import text_node_to_html_node, text_to_textnodes
 
 

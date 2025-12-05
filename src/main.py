@@ -1,11 +1,17 @@
-from textnode import TextNode, TextType
+
 from inline_helpers import *
+from block_helpers import *
 
 def main():
-#    text = "This is **text** with an _italic_ **word** and a `code block` _and_ an ![obi wan image](https://i.imgur.com/fJRm4Vk.jpeg) `and` a [link](https://google.com)"
-#    new_nodes = text_to_textnodes(text)
+    md = """
+>Implying
+>Further implying
+>Literally projecting
 
-#    print(new_nodes)
-    pass
+Who are you quoting?
+"""
+    node = markdown_to_html_node(md)
+    html = node.to_html()
+    print(html)
 
 main()

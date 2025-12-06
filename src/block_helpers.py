@@ -17,10 +17,10 @@ def markdown_to_blocks(markdown):
     new_blocks = []
     raw_blocks = markdown.split("\n\n")
     for block in raw_blocks:
-        new_block = block.strip()
-        if new_block == "":
+        if block == "":
             continue
-        new_blocks.append(new_block)
+        block = block.strip()
+        new_blocks.append(block)
     
     return new_blocks
 
@@ -55,6 +55,8 @@ def collate_text(text):
     sub_nodes = []
     for node in text_nodes:
         html_node = text_node_to_html_node(node)
+        if not html_node.value:
+            print(html_node)
         sub_nodes.append(html_node)
 
     return sub_nodes

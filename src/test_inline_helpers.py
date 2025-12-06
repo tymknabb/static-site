@@ -41,7 +41,7 @@ class TestInlineHelpers(unittest.TestCase):
         node = TextNode("This is alt text", TextType.IMAGE, "banana.jpg")
         html_node = text_node_to_html_node(node)
         self.assertEqual(html_node.tag, "img")
-        self.assertEqual(html_node.value, None)
+        self.assertEqual(html_node.value, " ")
         self.assertEqual(html_node.props, {"src": "banana.jpg", "alt": "This is alt text"})
 
     def test_split_md_bold(self):

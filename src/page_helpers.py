@@ -46,3 +46,6 @@ def generate_page(from_path, template_path, to_path):
         makedirs("./public")
     with open(to_path, "a") as i:
         i.write(index_html + '\n')
+
+def generate_pages_recursive(from_dir_path, template_path, to_dir_path):
+    pass

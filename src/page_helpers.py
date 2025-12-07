@@ -25,7 +25,7 @@ def extract_title(markdown):
             return title
     raise ValueError("Markdown contains no h1 heading.")
 
-def generate_page(from_path, template_path, to_path):
+def generate_page(content_root, from_path, template_path, to_path):
     print(f"Generating page from {from_path} to {to_path} using {template_path}")
     with open(from_path) as s:
         markdown = s.read()
@@ -38,16 +38,17 @@ def generate_page(from_path, template_path, to_path):
     html_node = markdown_to_html_node(markdown)
     html_content = html_node.to_html()
     index_html = index_html.replace("{{ Content }}", html_content)
+    
+    index_html = index_html.replace('href="/', f'href="{content_root}')
+    index_html = index_html.replace('src="/', f'src="{content_root}')
 
     s.close()
     t.close()
     
-    if not exists("./public"):
-        makedirs("./public")
     with open(to_path, "a") as i:
         i.write(index_html + '\n')
 
-def generate_pages_recursive(from_dir_path, template_path, to_dir_path):
+def generate_pages_recursive(content_root, from_dir_path, template_path, to_dir_path):
     #print(f"Running generate_pages_recursive({from_dir_path}, {template_path}, {to_dir_path})")
     if not exists(to_dir_path):
         mkdir(to_dir_path)
@@ -58,6 +59,6 @@ def generate_pages_recursive(from_dir_path, template_path, to_dir_path):
 
         if isfile(full_from_path) and path.endswith(".md"):
             new_file = full_to_path.replace(".md", ".html")
-            generate_page(full_from_path, template_path, new_file)
+            generate_page(content_root, full_from_path, template_path, new_file)
         else:
-            generate_pages_recursive(full_from_path, template_path, full_to_path)
+            generate_pages_recursive(content_root, full_from_path, template_path, full_to_path)

@@ -6,16 +6,19 @@ from shutil import rmtree
 from sys import argv
 
 dir_path_static = "./static"
-dir_path_public = "./public"
+dir_path_public = "./docs"
 dir_path_markdown = "./content"
 template_file = "./template.html"
-basepath = argv[1] or "/"
+
+basepath = "/"
+if len(argv) > 1:
+    basepath = argv[1]
 
 def main():
     if exists(dir_path_public):
-        rmtree(dir_path_public)
+        rmtree(dir_path_public) 
 
     copy_static_content(dir_path_static, dir_path_public)
-    generate_pages_recursive(dir_path_markdown, template_file, dir_path_public)
+    generate_pages_recursive(basepath, dir_path_markdown, template_file, dir_path_public)
 
 main()

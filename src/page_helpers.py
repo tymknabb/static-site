@@ -48,4 +48,16 @@ def generate_page(from_path, template_path, to_path):
         i.write(index_html + '\n')
 
 def generate_pages_recursive(from_dir_path, template_path, to_dir_path):
-    pass
+    #print(f"Running generate_pages_recursive({from_dir_path}, {template_path}, {to_dir_path})")
+    if not exists(to_dir_path):
+        mkdir(to_dir_path)
+
+    for path in listdir(from_dir_path):
+        full_from_path = join(from_dir_path, path)
+        full_to_path = join(to_dir_path, path)
+
+        if isfile(full_from_path) and path.endswith(".md"):
+            new_file = full_to_path.replace(".md", ".html")
+            generate_page(full_from_path, template_path, new_file)
+        else:
+            generate_pages_recursive(full_from_path, template_path, full_to_path)

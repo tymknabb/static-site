@@ -47,33 +47,38 @@ class TestInlineHelpers(unittest.TestCase):
     def test_split_md_bold(self):
         node = TextNode("This is text with a **bold** word", TextType.TEXT)
         new_nodes = split_nodes_delimiter([node], "**", TextType.BOLD)
-        print(type(new_nodes))
-        self.assertEqual(new_nodes[0].text, "This is text with a ")
-        self.assertEqual(new_nodes[0].text_type.value, "text")
-        self.assertEqual(new_nodes[1].text, "bold")
-        self.assertEqual(new_nodes[1].text_type.value, "bold")
-        self.assertEqual(new_nodes[2].text, " word")
-        self.assertEqual(new_nodes[2].text_type.value, "text")
+        self.assertListEqual(
+            [
+                TextNode("This is text with a ", TextType.TEXT),
+                TextNode("bold", TextType.BOLD),
+                TextNode(" word", TextType.TEXT)
+            ],
+            new_nodes,
+        )
 
     def test_split_md_italic(self):
         node = TextNode("This is text with a _italic_ word", TextType.TEXT)
         new_nodes = split_nodes_delimiter([node], "_", TextType.ITALIC)
-        self.assertEqual(new_nodes[0].text, "This is text with a ")
-        self.assertEqual(new_nodes[0].text_type.value, "text")
-        self.assertEqual(new_nodes[1].text, "italic")
-        self.assertEqual(new_nodes[1].text_type.value, "italic")
-        self.assertEqual(new_nodes[2].text, " word")
-        self.assertEqual(new_nodes[2].text_type.value, "text")
+        self.assertListEqual(
+            [
+                TextNode("This is text with a ", TextType.TEXT),
+                TextNode("italic", TextType.ITALIC),
+                TextNode(" word", TextType.TEXT)
+            ],
+            new_nodes,
+        )
 
     def test_split_md_code(self):
         node = TextNode("This is text with a `code block` word", TextType.TEXT)
         new_nodes = split_nodes_delimiter([node], "`", TextType.CODE)
-        self.assertEqual(new_nodes[0].text, "This is text with a ")
-        self.assertEqual(new_nodes[0].text_type.value, "text")
-        self.assertEqual(new_nodes[1].text, "code block")
-        self.assertEqual(new_nodes[1].text_type.value, "code")
-        self.assertEqual(new_nodes[2].text, " word")
-        self.assertEqual(new_nodes[2].text_type.value, "text")
+        self.assertListEqual(
+            [
+                TextNode("This is text with a ", TextType.TEXT),
+                TextNode("code block", TextType.CODE),
+                TextNode(" word", TextType.TEXT)
+            ],
+            new_nodes,
+        )
 
     def test_split_invalid_md(self):
         node = TextNode("This is text with a `code block` word. Also this is wrong`", TextType.TEXT)

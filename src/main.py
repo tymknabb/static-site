@@ -10,11 +10,11 @@ dir_path_public = "./docs"
 dir_path_markdown = "./content"
 template_file = "./template.html"
 
-basepath = "/"
-if len(argv) > 1:
-    basepath = argv[1]
-
 def main():
+    basepath = "/"
+    if len(argv) > 1:
+        basepath = argv[1]
+
     if exists(dir_path_public):
         rmtree(dir_path_public) 
 

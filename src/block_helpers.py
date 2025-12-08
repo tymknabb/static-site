@@ -55,18 +55,17 @@ def collate_text(text):
     sub_nodes = []
     for node in text_nodes:
         html_node = text_node_to_html_node(node)
-        if not html_node.value:
-            print(html_node)
         sub_nodes.append(html_node)
 
     return sub_nodes
 
 def block_to_html_node(block):
     block_type = block_to_block_type(block)
+    block_lines = block.split("\n")
+    html_nodes = []
     match block_type:
         case BlockType.PARAGRAPH:
-            lines = block.split("\n")
-            paragraph = " ".join(lines)
+            paragraph = " ".join(block_lines)
             children = collate_text(paragraph)
             return ParentNode("p", children)
 
@@ -91,31 +90,25 @@ def block_to_html_node(block):
             return ParentNode("pre", [code])
 
         case BlockType.O_LIST:
-            list_items = block.split("\n")
-            html_nodes = []
-            for item in list_items:
+            for item in block_lines:
                 text = item[3:]
                 children = collate_text(text)
                 html_nodes.append(ParentNode("li", children))
             return ParentNode("ol", html_nodes)
 
         case BlockType.U_LIST:
-            list_items = block.split("\n")
-            html_nodes = []
-            for item in list_items:
+            for item in block_lines:
                 text = item[2:]
                 children = collate_text(text)
                 html_nodes.append(ParentNode("li", children))
             return ParentNode("ul", html_nodes)
 
         case BlockType.QUOTE:
-            lines = block.split("\n")
-            quoted_lines = []
-            for line in lines:
+            for line in block_lines:
                 if not line.startswith(">"):
                     raise ValueError("Error: Invalid quote block.")
-                quoted_lines.append(line.lstrip(">").strip())
-            text = " ".join(quoted_lines)
+                html_nodes.append(line.lstrip(">").strip())
+            text = " ".join(html_nodes)
             children = collate_text(text)
             return ParentNode("blockquote", children)
 
